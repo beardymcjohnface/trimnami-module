@@ -1,16 +1,16 @@
 trimnami:
     qc:
-      roundAB:
-        primerB:
-          "primerB.fa"
-        rc_primerB:
-          "rc_primerB_ad6.fa"
-        neb_adapters:
-          "nebnext_adapters.fa"
-        rc_primerB_ad6:
-          "rc_primerB_ad6.fa"
-        vec_contam:
-          "vector_contaminants.fa"
+        roundAB:
+            primerB:
+                "primerB.fa"
+            rc_primerB:
+                "rc_primerB_ad6.fa"
+            neb_adapters:
+                "nebnext_adapters.fa"
+            rc_primerB_ad6:
+                "rc_primerB_ad6.fa"
+            vec_contam:
+                "vector_contaminants.fa"
         bbduk:
             rm_5p:
                 k=16
