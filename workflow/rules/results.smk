@@ -21,42 +21,18 @@ rule trimnami_init_input_paired_end:
         s = temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{sample}.RS.fastq.gz")),
     params:
         s = lambda wildcards: config["trimnami"]["samples"]["reads"][wildcards.sample]["S"],
+        is_paired = True
+    wildcard_constraints:
+        sample=f"(?!{'|'.join(config["trimnami"]["args"]["operations"])})[a-zA-Z0-9._-]+"
     resources:
         **config["resources"]["med"]
     threads:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "seqtk.yaml")
-    shell:
-        """
-        process_reads_file() {{
-            local input_file="$1"
-            local output_file="$2"
-        
-            if gzip -t "$input_file" 2>/dev/null; then
-                local catcom="zcat"
-            else
-                local catcom="cat"
-            fi
-        
-            if "$catcom" "$input_file" | head -1 | grep -Pq "^@"; then
-                local seqtkparm=""
-            else
-                local seqtkparm="-F I"
-            fi
+    script:
+        os.path.join("..", "scripts", "copyOrGzip.py")
 
-            "$catcom" "$input_file" | seqtk "$seqtkparm" - | gzip -1 - > "$output_file"
-        }}
-        
-        process_reads_file {input.r1} {output.r1}
-        process_reads_file {input.r2} {output.r2}
-        
-        if [ -s {params.s} ]; then
-            process_reads_file {params.s} {output.s}
-        else
-            touch {output.s}
-        fi
-        """
 
 
 rule trimnami_init_input_single_end:
@@ -65,32 +41,15 @@ rule trimnami_init_input_single_end:
         r1=lambda wildcards: config["trimnami"]["samples"]["reads"][wildcards.sample]["R1"],
     output:
         r1=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{sample}.S.fastq.gz")),
+    params:
+        is_paired = False
+    wildcard_constraints:
+        sample=f"(?!{'|'.join(config["trimnami"]["args"]["operations"])})[a-zA-Z0-9._-]+"
     conda:
         os.path.join("..","envs","seqtk.yaml")
     resources:
         **config["resources"]["med"]
     threads:
         config["resources"]["med"]["cpu"]
-    shell:
-        """
-        process_reads_file() {{
-            local input_file="$1"
-            local output_file="$2"
-
-            if gzip -t "$input_file" 2>/dev/null; then
-                local catcom="zcat"
-            else
-                local catcom="cat"
-            fi
-
-            if "$catcom" "$input_file" | head -1 | grep -Pq "^@"; then
-                local seqtkparm=""
-            else
-                local seqtkparm="-F I"
-            fi
-
-            "$catcom" "$input_file" | seqtk "$seqtkparm" - | gzip -1 - > "$output_file"
-        }}
-
-        process_reads_file {input.r1} {output.r1}
-        """
+    script:
+        os.path.join("..", "scripts", "copyOrGzip.py")

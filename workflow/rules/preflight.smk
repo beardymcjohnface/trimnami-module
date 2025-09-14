@@ -56,7 +56,7 @@ if config["trimnami"]["args"]["fastqc"]:
 config["trimnami"]["multiqc"] = list()
 
 trimming_stage = []
-for operation in [""] + config["trimnami"]["args"]["operations"]:
+for operation in config["trimnami"]["args"]["operations"]:
     trimming_stage.append(operation)
     trimming_stage_name = ".".join(trimming_stage)
     for sample in config["trimnami"]["samples"]["names"]:
