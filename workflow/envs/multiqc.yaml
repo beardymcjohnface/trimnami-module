@@ -4,6 +4,4 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - pip
-  - pip:
-      - multiqc
+  - multiqc

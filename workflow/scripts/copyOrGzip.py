@@ -14,9 +14,9 @@ def gzip_file(input_file, output_file):
     fasta_regex = re.compile(r"^[a-zA-Z0-9_-]+\.(fa|fasta|fna|ffn|faa|frn)(\.gz)?$")
 
     if fasta_regex.match(input_file):
-        seqtk_args = ["seqtk", "-F", "I", input_file]
+        seqtk_args = ["seqtk", "seq", "-F", "I", input_file]
     else:
-        seqtk_args = ["seqtk", input_file]
+        seqtk_args = ["seqtk", "seq", input_file]
 
     try:
         seqtk_process = subprocess.Popen(seqtk_args, stdout=subprocess.PIPE)
