@@ -22,10 +22,10 @@ def main(**kwargs):
     if "input_r2" in kwargs.keys():
         gzip_file(kwargs["input_r2"], kwargs["output_r2"])
     if "input_s" in kwargs.keys():
-        if os.path.exists(kwargs["input_s"]) and os.path.getsize(kwargs["input_s"]) > 0:
-            gzip_file(kwargs["input_s"], kwargs["output_s"])
-        else:
-            open(kwargs["output_s"], "w").close()
+        open(kwargs["output_s"], "w").close()
+        if kwargs["input_s"]:
+            if os.path.exists(kwargs["input_s"]) and os.path.getsize(kwargs["input_s"]) > 0:
+                gzip_file(kwargs["input_s"], kwargs["output_s"])
 
 
 if __name__ == "__main__":
