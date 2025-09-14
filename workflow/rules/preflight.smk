@@ -35,9 +35,12 @@ for sample in config["trimnami"]["samples"]["names"]:
         config["trimnami"]["targets"]["reads"].append(
             os.path.join(
                 config["trimnami"]["args"]["output_paths"]["results"],
-                ".".join([sample] + config["trimnami"]["args"]["operations"]),
-                read_pair,
-                config["trimnami"]["args"]["outfmt"]
+                ".".join([
+                    sample,
+                    ".".join(config["trimnami"]["args"]["operations"]),
+                    read_pair,
+                    config["trimnami"]["args"]["outfmt"]
+                ])
             )
         )
 
@@ -65,10 +68,12 @@ for operation in [""] + config["trimnami"]["args"]["operations"]:
             config["trimnami"]["multiqc"].append(
                 os.path.join(
                     config["trimnami"]["args"]["output_paths"]["reports"],
-                    sample,
-                    trimming_stage_name,
-                    read_pair
-                ) + "_fastqc.zip"
+                    ".".join([
+                        sample,
+                        trimming_stage_name,
+                        read_pair
+                    ]) + "_fastqc.zip"
+                )
             )
 
 """
