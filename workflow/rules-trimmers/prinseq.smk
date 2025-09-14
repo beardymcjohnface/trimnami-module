@@ -11,11 +11,9 @@ rule trimnami_prinseq_paired:
         s1=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.prinseq.S1.fastq.gz")),
         s2=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.prinseq.S2.fastq.gz")),
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "prinseq.yaml")
     params:
@@ -56,11 +54,9 @@ rule prinseq_single:
     output:
         r1=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.prinseq.S.fastq.gz")),
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","prinseq.yaml")
     params:

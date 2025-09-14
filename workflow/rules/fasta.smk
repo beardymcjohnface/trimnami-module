@@ -6,6 +6,10 @@ rule trimnami_fastq_to_fasta:
         temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.fasta.gz")),
     params:
         "-" + str(config["trimnami"]["qc"]["compression"])
+    resources:
+        **config["resources"]["med"]
+    threads:
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "seqtk.yaml")
     shell:

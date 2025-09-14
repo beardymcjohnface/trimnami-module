@@ -21,6 +21,10 @@ rule trimnami_init_input_paired_end:
         s = temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{sample}.RS.fastq.gz")),
     params:
         s = lambda wildcards: samples["reads"][wildcards.sample]["S"],
+    resources:
+        **config["resources"]["med"]
+    threads:
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "seqtk.yaml")
     shell:
@@ -63,6 +67,10 @@ rule trimnami_init_input_single_end:
         r1=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{sample}.S.fastq.gz")),
     conda:
         os.path.join("..","envs","seqtk.yaml")
+    resources:
+        **config["resources"]["med"]
+    threads:
+        config["resources"]["med"]["cpu"]
     shell:
         """
         process_reads_file() {{

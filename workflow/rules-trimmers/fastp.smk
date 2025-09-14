@@ -18,11 +18,9 @@ rule trimnami_fastp_paired_end:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_fastp_paired_end.{file}.log")
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","fastp.yaml")
     params:
@@ -72,11 +70,9 @@ rule trimnami_fastp_single_end:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_fastp_single_end.{file}.log")
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","fastp.yaml")
     params:

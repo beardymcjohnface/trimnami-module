@@ -3,15 +3,13 @@ rule trimnami_index_host_genome:
     input:
         config["trimnami"]["args"]["host"]
     output:
-        config["trimnami"]["args"]["hostIndex"]
+        config["trimnami"]["args"]["host"] + ".idx"
     params:
         config["trimnami"]["qc"]["minimapIndex"]
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","minimap2.yaml")
     benchmark:
@@ -28,7 +26,7 @@ rule trimnami_host_rm_mapping_paired:
         r1=os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.R1.fastq.gz"),
         r2=os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.R2.fastq.gz"),
         s=os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.RS.fastq.gz"),
-        host=config["trimnami"]["args"]["hostIndex"]
+        host=config["trimnami"]["args"]["host"] + ".idx"
     output:
         r1=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.host_rm.R1.fastq.gz")),
         r2=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.host_rm.R2.fastq.gz")),
@@ -47,11 +45,9 @@ rule trimnami_host_rm_mapping_paired:
         sv=os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"host_removal_mapping.{file}.samtoolsView.log"),
         fq=os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"host_removal_mapping.{file}.samtoolsFastq.log"),
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","minimap2.yaml")
     shell:
@@ -116,11 +112,9 @@ rule trimnami_host_rm_mapping_single:
         sv=os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"host_removal_mapping.{file}.samtoolsView.log"),
         fq=os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"host_removal_mapping.{file}.samtoolsFastq.log")
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","minimap2.yaml")
     shell:

@@ -13,11 +13,9 @@ rule trimnami_cutadapt_paired_end:
         r2=os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.cutadapt.R2.fastq.gz"),
         s=os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.cutadapt.RS.fastq.gz"),
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         config["trimnami"]["qc"]["cutadapt"]["params"]
     conda:
@@ -61,11 +59,9 @@ rule trimnami_cutadapt_single_end:
     output:
         r1=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.cutadapt.S.fastq.gz")),
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         config["trimnami"]["qc"]["cutadapt"]
     conda:

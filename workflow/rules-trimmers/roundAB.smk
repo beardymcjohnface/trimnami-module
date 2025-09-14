@@ -17,12 +17,9 @@ rule trimnami_rm_5_primer:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_rm_5_primer.{file}.log")
     resources:
-        mem_mb = resources["med"]["mem"],
-        mem = str(resources["med"]["mem"]) + "MB",
-        javaAlloc = int(0.9 * resources["med"]["mem"]),
-        time = resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         config["trimnami"]["qc"]["bbduk"]["rm_5p"],
     conda:
@@ -75,12 +72,9 @@ rule trimnami_rm_3_contaminant:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_rm_3_contaminant.{file}.log")
     resources:
-        mem_mb = resources["med"]["mem"],
-        mem = str(resources["med"]["mem"]) + "MB",
-        javaAlloc = int(0.9 * resources["med"]["mem"]),
-        time = resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         config["trimnami"]["qc"]["bbduk"]["rm_3rt"]
     conda:
@@ -133,12 +127,9 @@ rule trimnami_rm_primer_free_adapter:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_rm_primer_free_adapter.{file}.log")
     resources:
-        mem_mb = resources["med"]["mem"],
-        mem = str(resources["med"]["mem"]) + "MB",
-        javaAlloc = int(0.9 * resources["med"]["mem"]),
-        time = resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         config["trimnami"]["qc"]["bbduk"]["neb"]
     conda:
@@ -191,12 +182,9 @@ rule trimnami_rm_adapter_free_primer:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_rm_adapter_free_primer.{file}.log")
     resources:
-        mem_mb = resources["med"]["mem"],
-        mem = str(resources["med"]["mem"]) + "MB",
-        javaAlloc = int(0.9 * resources["med"]["mem"]),
-        time = resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         config["trimnami"]["qc"]["bbduk"]["rm_afp"]
     conda:
@@ -249,12 +237,9 @@ rule trimnami_rm_vector_contamination:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["temp"]["log"],"trimnami_rm_vector_contamination.{file}.log")
     resources:
-        mem_mb = resources["med"]["mem"],
-        mem = str(resources["med"]["mem"]) + "MB",
-        javaAlloc = int(0.9 * resources["med"]["mem"]),
-        time = resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         config["trimnami"]["qc"]["bbduk"]["rm_vc"]
     conda:
@@ -304,12 +289,9 @@ rule trimnami_rm_low_qual:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_rm_low_qual.{file}.log")
     resources:
-        mem_mb = resources["med"]["mem"],
-        mem = str(resources["med"]["mem"]) + "MB",
-        javaAlloc = int(0.9 * resources["med"]["mem"]),
-        time = resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         config["trimnami"]["qc"]["bbduk"]["rm_lq"]
     conda:
@@ -357,12 +339,9 @@ rule trimnami_zip_roundAB:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_zip_roundAB.{file}.log")
     resources:
-        mem_mb = resources["med"]["mem"],
-        mem = str(resources["med"]["mem"]) + "MB",
-        javaAlloc = int(0.9 * resources["med"]["mem"]),
-        time = resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         compression = config["trimnami"]["qc"]["compression"]
     conda:
@@ -389,12 +368,9 @@ rule trimnami_roundAB_single_end:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_roundAB_single_end.{file}.log")
     resources:
-        mem_mb = resources["med"]["mem"],
-        mem = str(resources["med"]["mem"]) + "MB",
-        javaAlloc = int(0.9 * resources["med"]["mem"]),
-        time = resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     params:
         params = config["trimnami"]["qc"]["bbduk"]["rm_lq"],
         compression = config["trimnami"]["qc"]["compression"]

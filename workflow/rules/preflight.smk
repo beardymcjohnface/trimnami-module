@@ -23,10 +23,11 @@ for output_file_path in config["trimnami"]["args"]["output_paths"]:
 """
 Define target reads files based on operations and samples
 """
+config["trimnami"]["targets"] = dict()
 config["trimnami"]["targets"]["reads"] = list()
 
 for sample in config["trimnami"]["samples"]["names"]:
-    if config["trimnami"]["samples"]["reads"]["R2"] is not None:
+    if config["trimnami"]["samples"]["reads"][sample]["R2"] is not None:
         read_pairs = ["R1","R2","RS"]
     else:
         read_pairs = ["S"]
@@ -54,9 +55,9 @@ config["trimnami"]["multiqc"] = list()
 trimming_stage = []
 for operation in [""] + config["trimnami"]["args"]["operations"]:
     trimming_stage.append(operation)
-    trimming_stage = ".".join([trimming_stage, operation])
+    trimming_stage_name = ".".join(trimming_stage)
     for sample in config["trimnami"]["samples"]["names"]:
-        if config["trimnami"]["samples"]["reads"]["R2"] is not None:
+        if config["trimnami"]["samples"]["reads"][sample]["R2"] is not None:
             read_pairs = ["R1", "R2", "RS"]
         else:
             read_pairs = ["S"]
@@ -65,7 +66,7 @@ for operation in [""] + config["trimnami"]["args"]["operations"]:
                 os.path.join(
                     config["trimnami"]["args"]["output_paths"]["reports"],
                     sample,
-                    trimming_stage,
+                    trimming_stage_name,
                     read_pair
                 ) + "_fastqc.zip"
             )

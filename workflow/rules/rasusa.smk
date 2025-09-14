@@ -4,11 +4,9 @@ rule rasusa:
     output:
         temp(os.path.join(dir["temp"], "{dir}", "{file}.subsampled.fastq.gz")),
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join(dir["env"], "rasusa.yaml")
     params:

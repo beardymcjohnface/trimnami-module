@@ -9,11 +9,9 @@ rule trimnami_fastqc:
     conda:
         os.path.join("..", "envs", "fastqc.yaml")
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"], "trimnami_fastqc.{file}.log")
     benchmark:
@@ -34,6 +32,10 @@ rule trimnami_multiqc_fastqc:
         os.path.join(config["trimnami"]["args"]["output_paths"]["reports"])
     conda:
         os.path.join("..", "envs","multiqc.yaml")
+    resources:
+        **config["resources"]["med"]
+    threads:
+        config["resources"]["med"]["cpu"]
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_multiqc_fastqc.log")
     benchmark:

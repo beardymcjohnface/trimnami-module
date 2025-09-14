@@ -5,11 +5,9 @@ rule trimnami_filtlong_single:
     output:
         o=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.filtlong.S.fastq.gz")),
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "filtlong.yaml")
     params:
@@ -40,11 +38,9 @@ rule trimnami_filtlong_paried:
     params:
         config["trimnami"]["qc"]["filtlong"]
     resources:
-        mem_mb=resources["med"]["mem"],
-        mem=str(resources["med"]["mem"]) + "MB",
-        time=resources["med"]["time"]
+        **config["resources"]["med"]
     threads:
-        resources["med"]["cpu"]
+        config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "filtlong.yaml")
     benchmark:
