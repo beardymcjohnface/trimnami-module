@@ -7,7 +7,7 @@ resources:
 trimnami:
     args:
         reads: "test/"
-        host: "test.ref.fna"
+        host: "test/ref.fna"
         outfmt:
             "fastq.gz"
 #            "fastq"
