@@ -6,7 +6,7 @@ rule trimnami_save_output:
         os.path.join(config["trimnami"]["args"]["output_paths"]["results"], "{file}")
     localrule: True
     shell:
-        "mv {input} {output}"
+        "mv {input} {output}; "
         "ln -s $(pwd)/{output} $(pwd)/{input}"
 
 
