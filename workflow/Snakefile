@@ -11,7 +11,7 @@ def copy_log_file():
     files = glob.glob(os.path.join(".snakemake", "log", "*.snakemake.log"))
     if files:
         current_log = max(files, key=os.path.getmtime)
-        shell("cat " + current_log + " >> " + config["args"]["log"])
+        shell("cat " + current_log + " >> " + config["trimnami"]["args"]["output_paths"]["trimnami_log"])
 
 onsuccess:
     copy_log_file()
