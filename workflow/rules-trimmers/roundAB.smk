@@ -233,9 +233,9 @@ rule trimnami_rm_vector_contamination:
         r2=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.R2.s5.fastq")),
         s=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.S.s5.fastq")),
     benchmark:
-        os.path.join(config["trimnami"]["args"]["output_paths"]["temp"]["bench"],"trimnami_rm_vector_contamination.{file}.txt")
+        os.path.join(config["trimnami"]["args"]["output_paths"]["bench"],"trimnami_rm_vector_contamination.{file}.txt")
     log:
-        os.path.join(config["trimnami"]["args"]["output_paths"]["temp"]["log"],"trimnami_rm_vector_contamination.{file}.log")
+        os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_rm_vector_contamination.{file}.log")
     resources:
         **config["resources"]["med"]
     threads:
