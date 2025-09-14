@@ -96,7 +96,7 @@ rule trimnami_host_rm_mapping_single:
     """Map reads to host and return unmapped reads"""
     input:
         r1=os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.S.fastq.gz"),
-        host=config["trimnami"]["args"]["hostIndex"]
+        host=config["trimnami"]["args"]["host"] + ".idx"
     output:
         rs=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.host_rm.S.fastq.gz")),
         r0=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.host_rm.r0.fastq.gz")),

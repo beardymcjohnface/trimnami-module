@@ -1,20 +1,21 @@
-rule rasusa:
+rule trimnami_rasusa:
+    """Note, this will mess up paired reads"""
     input:
-        os.path.join(dir["temp"], "{dir}", "{file}.fastq.gz")
+        os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.{ext}.fastq.gz")
     output:
-        temp(os.path.join(dir["temp"], "{dir}", "{file}.subsampled.fastq.gz")),
+        temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.{ext}.subsampled.fastq.gz")),
     resources:
         **config["resources"]["med"]
     threads:
         config["resources"]["med"]["cpu"]
     conda:
-        os.path.join(dir["env"], "rasusa.yaml")
+        os.path.join("..", "envs", "rasusa.yaml")
     params:
-        config["qc"]["subsample"]
+        config["trimnami"]["qc"]["subsample"]
     benchmark:
-        os.path.join(dir["bench"], "rasusa_single.{dir}.{file}.txt")
+        os.path.join(config["trimnami"]["args"]["output_paths"]["bench"], "trimnami_rasusa.{file}.{ext}.txt")
     log:
-        os.path.join(dir["log"], "rasusa_single.{dir}.{file}.log")
+        os.path.join(config["trimnami"]["args"]["output_paths"]["log"], "trimnami_rasusa.{file}.{ext}.log")
     shell:
         ("if (( $(wc -c {input} | awk '{{print$1}}') > 200 ))\n then "
             "rasusa reads "
