@@ -34,25 +34,25 @@ trimnami:
             trimnami_log: "trimnami.log"
     container:
         bbmap:
-            "workflow/containers/trimnami_bbmap.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_bbmap:0.0.0"
         cutadapt:
-            "workflow/containers/trimnami_cutadapt.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_cutadapt:0.0.0"
         fastp:
-            "workflow/containers/trimnami_fastp.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_fastp:0.0.0"
         fastqc:
-            "workflow/containers/trimnami_fastqc.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_fastqc:0.0.0"
         filtlong:
-            "workflow/containers/trimnami_filtlong.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_filtlong:0.0.0"
         minimap2:
-            "workflow/containers/trimnami_minimap2.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_minimap2:0.0.0"
         multiqc:
-            "workflow/containers/trimnami_multiqc.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_multiqc:0.0.0"
         prinseq:
-            "workflow/containers/trimnami_prinseq.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_prinseq:0.0.0"
         rasusa:
-            "workflow/containers/trimnami_rasusa.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_rasusa:0.0.0"
         seqtk:
-            "workflow/containers/trimnami_seqtk.sif"
+            "oras://quay.io/beardymcjohnface/trimnami_seqtk:0.0.0"
     qc:
         compression:
             1
