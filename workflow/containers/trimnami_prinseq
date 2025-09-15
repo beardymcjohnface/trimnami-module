@@ -1,0 +1,6 @@
+Bootstrap: docker
+
+From: continuumio/miniconda3
+
+%post
+    conda install -c conda-forge -c bioconda  'prinseq-plus-plus=1.2.4'  'pigz=2.8' 'boost-cpp=1.85.0'

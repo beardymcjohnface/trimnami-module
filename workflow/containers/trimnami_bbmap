@@ -1,0 +1,6 @@
+Bootstrap: docker
+
+From: continuumio/miniconda3
+
+%post
+    conda install -c bioconda -c conda-forge bbmap=38.90

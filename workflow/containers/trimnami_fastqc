@@ -1,0 +1,6 @@
+Bootstrap: docker
+
+From: continuumio/miniconda3
+
+%post
+    conda install -c conda-forge -c bioconda 'fastqc=0.12.1' 'openjdk=24.0.2'
