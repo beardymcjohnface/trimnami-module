@@ -41,7 +41,7 @@ rule trimnami_prinseq_paired:
                 "-threads {threads} "
                 "-out_good {output.s} "
                 "-out_bad /dev/null "
-                "-fastq {input.r1} &> {log}\n\n "
+                "-fastq {input.s} &> {log}\n\n "
         "else "
             "touch {output.s}\n "
         "fi\n\n "

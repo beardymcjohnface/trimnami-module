@@ -21,7 +21,7 @@ for output_file_path in config["trimnami"]["args"]["output_paths"]:
 
 
 """
-Define target reads files based on operations and samples
+Define target reads files based on steps and samples
 """
 config["trimnami"]["targets"] = dict()
 config["trimnami"]["targets"]["reads"] = list()
@@ -37,7 +37,7 @@ for sample in config["trimnami"]["samples"]["names"]:
                 config["trimnami"]["args"]["output_paths"]["results"],
                 ".".join([
                     sample,
-                    ".".join(config["trimnami"]["args"]["operations"]),
+                    ".".join(config["trimnami"]["args"]["steps"]),
                     read_pair,
                     config["trimnami"]["args"]["outfmt"]
                 ])
@@ -46,7 +46,7 @@ for sample in config["trimnami"]["samples"]["names"]:
 
 
 """
-Define target fastqc files and inputs based on operations and samples
+Define target fastqc files and inputs based on steps and samples
 """
 if config["trimnami"]["args"]["fastqc"]:
     config["trimnami"]["targets"]["reads"].append(
@@ -56,7 +56,7 @@ if config["trimnami"]["args"]["fastqc"]:
 config["trimnami"]["multiqc"] = list()
 
 trimming_stage = []
-for operation in config["trimnami"]["args"]["operations"]:
+for operation in config["trimnami"]["args"]["steps"]:
     trimming_stage.append(operation)
     trimming_stage_name = ".".join(trimming_stage)
     for sample in config["trimnami"]["samples"]["names"]:

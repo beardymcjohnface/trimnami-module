@@ -3,7 +3,7 @@ rule trimnami_rasusa:
     input:
         os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.{ext}.fastq.gz")
     output:
-        temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.{ext}.subsampled.fastq.gz")),
+        temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.subsample.{ext}.fastq.gz")),
     resources:
         **config["resources"]["med"]
     threads:

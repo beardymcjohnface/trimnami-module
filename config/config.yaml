@@ -13,15 +13,15 @@ trimnami:
 #            "fastq"
 #            "fasta.gz"
 #            "fasta"
-        operations:
-#          - subsample
+        steps:
           - host_rm
           - fastp
 #          - prinseq
 #          - roundAB
-#          - filtlong
 #          - notrim
 #          - cutadapt
+#          - filtlong
+#          - subsample
         minimap: "sr"
         fastqc: true
         subsample: false

@@ -17,10 +17,14 @@ rule trimnami_fastqc:
     benchmark:
         os.path.join(config["trimnami"]["args"]["output_paths"]["bench"], "trimnami_fastqc.{file}.txt")
     shell:
-        ("fastqc {input} "
-            "-t {threads} "
-            "--outdir {params} "
-            "&> {log}; ")
+        "if [ -s {input} ]; then "
+            "fastqc {input} "
+                "-t {threads} "
+                "--outdir {params} "
+                "&> {log}; "
+        "else "
+            "touch {output}; "
+        "fi"
 
 
 rule trimnami_multiqc_fastqc:
@@ -41,4 +45,4 @@ rule trimnami_multiqc_fastqc:
     benchmark:
         os.path.join(config["trimnami"]["args"]["output_paths"]["bench"],"trimnami_multiqc_fastqc.txt")
     shell:
-        "multiqc {params} -n {output} --no-data-dir 2> {log}"
+        "multiqc {params} -n {output} -s --no-data-dir 2> {log}"

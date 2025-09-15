@@ -9,9 +9,9 @@ rule trimnami_cutadapt_paired_end:
             os.path.join("..", "..", "resources",config["trimnami"]["qc"]["cutadapt"]["adapters"])
         )
     output:
-        r1=os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.cutadapt.R1.fastq.gz"),
-        r2=os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.cutadapt.R2.fastq.gz"),
-        s=os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.cutadapt.RS.fastq.gz"),
+        r1=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.cutadapt.R1.fastq.gz")),
+        r2=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.cutadapt.R2.fastq.gz")),
+        s=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{file}.cutadapt.RS.fastq.gz")),
     resources:
         **config["resources"]["med"]
     threads:
@@ -25,7 +25,7 @@ rule trimnami_cutadapt_paired_end:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"],"trimnami_cutadapt_paired_end.{file}.log")
     shell:
-        ("cutadapt "
+        "cutadapt "
             "--cores {threads} "
             "{params} "
             "-b file:{input.adapters} "
@@ -40,13 +40,13 @@ rule trimnami_cutadapt_paired_end:
             "cutadapt "
                 "--cores {threads} "
                 "{params} "
-                "-b {input.adapters} "
+                "-b file:{input.adapters} "
                 "-o {output.s} "
                 "{input.s} "
                 "&> {log}\n "
         "else "
             "touch {output.s}\n "
-        "fi\n\n ")
+        "fi\n\n "
 
 
 rule trimnami_cutadapt_single_end:
@@ -63,7 +63,7 @@ rule trimnami_cutadapt_single_end:
     threads:
         config["resources"]["med"]["cpu"]
     params:
-        config["trimnami"]["qc"]["cutadapt"]
+        config["trimnami"]["qc"]["cutadapt"]["params"]
     conda:
         os.path.join("..", "envs","cutadapt.yaml")
     benchmark:

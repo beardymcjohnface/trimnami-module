@@ -48,15 +48,15 @@ rule trimnami_filtlong_paried:
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"], "trimnami_filtlong_paried.{file}.log")
     shell:
-        "filtlong {params} {input.r1} 2> {log}"
+        "filtlong {params} {input.r1} 2> {log} "
             "| gzip -1 "
             "> {output.r1}\n\n "
-        "filtlong {params} {input.r2} 2> {log}"
+        "filtlong {params} {input.r2} 2> {log} "
             "| gzip -1 "
             "> {output.r2}\n\n "
         "if [[ -s {input.s} ]]\n "
         "then "
-            "filtlong {params} {input.s} 2> {log}"
+            "filtlong {params} {input.s} 2> {log} "
                 "| gzip -1 "
                 "> {output.s}\n\n "
         "else "

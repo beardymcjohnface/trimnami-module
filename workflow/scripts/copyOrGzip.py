@@ -1,6 +1,8 @@
 import re
 import os
 import subprocess
+import shutil
+import gzip
 
 
 def gzip_file(input_file, output_file):
@@ -15,21 +17,24 @@ def gzip_file(input_file, output_file):
 
     if fasta_regex.match(input_file):
         seqtk_args = ["seqtk", "seq", "-F", "I", input_file]
+        try:
+            seqtk_process = subprocess.Popen(seqtk_args, stdout=subprocess.PIPE)
+            gzip_process = subprocess.Popen(["gzip", "-1", "-c"], stdin=seqtk_process.stdout,
+                                            stdout=open(output_file, "wb"))
+            seqtk_process.stdout.close()
+            gzip_process.wait()
+            seqtk_process.wait()
+            print(f"File processed and saved to {output_file}")
+        except FileNotFoundError as e:
+            print(f"Error: Command not found. Make sure seqtk and gzip are in your PATH. Details: {e}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    elif input_file.endswith('.gz'):
+        shutil.copyfile(input_file, output_file)
     else:
-        seqtk_args = ["seqtk", "seq", input_file]
-
-    try:
-        seqtk_process = subprocess.Popen(seqtk_args, stdout=subprocess.PIPE)
-        gzip_process = subprocess.Popen(["gzip", "-1", "-c"], stdin=seqtk_process.stdout,
-                                        stdout=open(output_file, "wb"))
-        seqtk_process.stdout.close()
-        gzip_process.wait()
-        seqtk_process.wait()
-        print(f"File processed and saved to {output_file}")
-    except FileNotFoundError as e:
-        print(f"Error: Command not found. Make sure seqtk and gzip are in your PATH. Details: {e}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+        with open(input_file, 'rb') as f_in:
+            with gzip.open(output_file, 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
 
 
 def main(**kwargs):

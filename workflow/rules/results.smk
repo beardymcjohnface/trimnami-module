@@ -10,6 +10,19 @@ rule trimnami_save_output:
         "ln -s $(pwd)/{output} $(pwd)/{input}"
 
 
+rule trimnami_unzip_output:
+    """if unzipped fastq or fasta are specified for some reason"""
+    input:
+        os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.{ext}.gz"),
+    output:
+        temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"], "{file}.{ext}"))
+    wildcard_constraints:
+        ext = r'fasta|fastq'
+    localrule: True
+    shell:
+        "gzip -d -c {input} > {output}"
+
+
 rule trimnami_init_input_paired_end:
     """Initialise the input files for paired end reads"""
     input:
@@ -22,8 +35,6 @@ rule trimnami_init_input_paired_end:
     params:
         s = lambda wildcards: config["trimnami"]["samples"]["reads"][wildcards.sample]["S"],
         is_paired = True
-    wildcard_constraints:
-        sample=f"(?!{'|'.join(config["trimnami"]["args"]["operations"])})[a-zA-Z0-9._-]+"
     resources:
         **config["resources"]["med"]
     threads:
@@ -43,8 +54,6 @@ rule trimnami_init_input_single_end:
         r1=temp(os.path.join(config["trimnami"]["args"]["output_paths"]["temp"],"{sample}.S.fastq.gz")),
     params:
         is_paired = False
-    wildcard_constraints:
-        sample=f"(?!{'|'.join(config["trimnami"]["args"]["operations"])})[a-zA-Z0-9._-]+"
     conda:
         os.path.join("..","envs","seqtk.yaml")
     resources:
