@@ -12,6 +12,8 @@ rule trimnami_index_host_genome:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","minimap2.yaml")
+    container:
+        config["trimnami"]["container"]["minimap2"]
     benchmark:
         os.path.join(config["trimnami"]["args"]["output_paths"]["bench"],"trimnami_index_host_genome.txt")
     log:
@@ -50,6 +52,8 @@ rule trimnami_host_rm_mapping_paired:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","minimap2.yaml")
+    container:
+        config["trimnami"]["container"]["minimap2"]
     shell:
         "minimap2 "
             "-ax {params.minimap_mode} "
@@ -117,6 +121,8 @@ rule trimnami_host_rm_mapping_single:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","minimap2.yaml")
+    container:
+        config["trimnami"]["container"]["minimap2"]
     shell:
         "minimap2 "
             "-ax {params.minimap_mode} "

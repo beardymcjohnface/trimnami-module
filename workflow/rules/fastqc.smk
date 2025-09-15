@@ -8,6 +8,8 @@ rule trimnami_fastqc:
         config["trimnami"]["args"]["output_paths"]["reports"],
     conda:
         os.path.join("..", "envs", "fastqc.yaml")
+    container:
+        config["trimnami"]["container"]["fastqc"]
     resources:
         **config["resources"]["med"]
     threads:
@@ -36,6 +38,8 @@ rule trimnami_multiqc_fastqc:
         os.path.join(config["trimnami"]["args"]["output_paths"]["reports"])
     conda:
         os.path.join("..", "envs","multiqc.yaml")
+    container:
+        config["trimnami"]["container"]["multiqc"]
     resources:
         **config["resources"]["med"]
     threads:

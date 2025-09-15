@@ -20,6 +20,8 @@ rule trimnami_cutadapt_paired_end:
         config["trimnami"]["qc"]["cutadapt"]["params"]
     conda:
         os.path.join("..", "envs","cutadapt.yaml")
+    container:
+        config["trimnami"]["container"]["cutadapt"]
     benchmark:
         os.path.join(config["trimnami"]["args"]["output_paths"]["bench"],"trimnami_cutadapt_paired_end.{file}.txt")
     log:
@@ -66,6 +68,8 @@ rule trimnami_cutadapt_single_end:
         config["trimnami"]["qc"]["cutadapt"]["params"]
     conda:
         os.path.join("..", "envs","cutadapt.yaml")
+    container:
+        config["trimnami"]["container"]["cutadapt"]
     benchmark:
         os.path.join(config["trimnami"]["args"]["output_paths"]["bench"],"trimnami_cutadapt_single_end.{file}.txt")
     log:
@@ -79,25 +83,3 @@ rule trimnami_cutadapt_single_end:
             "--fasta  "
             "{input.r1} "
             "&> {log}\n\n ")
-
-
-# rule fasta_to_fastq:
-#     """Convert the fasta files to fastq files for cutadapt"""
-#     input:
-#         os.path.join(dir["cutadapt"], "{file}.fasta")
-#     output:
-#         temp(os.path.join(dir["cutadapt"],"{file}.fastq.gz"))
-#     params:
-#         compression = "-" + str(config["qc"]["compression"])
-#     conda:
-#         os.path.join(dir["env"],"seqtk.yaml")
-#     benchmark:
-#         os.path.join(dir["bench"],"fasta_to_fastq.{file}.txt")
-#     log:
-#         os.path.join(dir["log"],"fasta_to_fastq.{file}.log")
-#     shell:
-#         "seqtk "
-#             "seq -F 'B' {input} "
-#             "| gzip {params.compression} "
-#             "> {output} "
-#             "2> {log}\n\n "

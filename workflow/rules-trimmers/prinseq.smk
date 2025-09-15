@@ -16,6 +16,8 @@ rule trimnami_prinseq_paired:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "prinseq.yaml")
+    container:
+        config["trimnami"]["container"]["prinseq"]
     params:
         config["trimnami"]["qc"]["prinseq"],
     log:
@@ -61,6 +63,8 @@ rule prinseq_single:
         os.path.join("..", "envs","prinseq.yaml")
     params:
         config["trimnami"]["qc"]["prinseq"]
+    container:
+        config["trimnami"]["container"]["prinseq"]
     log:
         os.path.join(config["trimnami"]["args"]["output_paths"]["log"], "prinseq.{file}.log")
     benchmark:

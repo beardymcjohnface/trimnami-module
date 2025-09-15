@@ -10,6 +10,8 @@ rule trimnami_rasusa:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "rasusa.yaml")
+    container:
+        config["trimnami"]["container"]["rasusa"]
     params:
         config["trimnami"]["qc"]["subsample"]
     benchmark:

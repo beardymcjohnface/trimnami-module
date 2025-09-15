@@ -12,6 +12,8 @@ rule trimnami_fastq_to_fasta:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "seqtk.yaml")
+    container:
+        config["trimnami"]["container"]["seqtk"]
     shell:
         "seqtk seq {input} -A "
             "| gzip {params} "

@@ -24,6 +24,8 @@ rule trimnami_rm_5_primer:
         config["trimnami"]["qc"]["bbduk"]["rm_5p"],
     conda:
         os.path.join("..", "envs", "bbmap.yaml")
+    container:
+        config["trimnami"]["container"]["bbmap"]
     group:
         "roundAB"
     shell:
@@ -79,6 +81,8 @@ rule trimnami_rm_3_contaminant:
         config["trimnami"]["qc"]["bbduk"]["rm_3rt"]
     conda:
         os.path.join("..", "envs", "bbmap.yaml")
+    container:
+        config["trimnami"]["container"]["bbmap"]
     group:
         "roundAB"
     shell:
@@ -134,6 +138,8 @@ rule trimnami_rm_primer_free_adapter:
         config["trimnami"]["qc"]["bbduk"]["neb"]
     conda:
         os.path.join("..", "envs", "bbmap.yaml")
+    container:
+        config["trimnami"]["container"]["bbmap"]
     group:
         "roundAB"
     shell:
@@ -189,6 +195,8 @@ rule trimnami_rm_adapter_free_primer:
         config["trimnami"]["qc"]["bbduk"]["rm_afp"]
     conda:
         os.path.join("..", "envs", "bbmap.yaml")
+    container:
+        config["trimnami"]["container"]["bbmap"]
     group:
         "roundAB"
     shell:
@@ -244,6 +252,8 @@ rule trimnami_rm_vector_contamination:
         config["trimnami"]["qc"]["bbduk"]["rm_vc"]
     conda:
         os.path.join("..", "envs", "bbmap.yaml")
+    container:
+        config["trimnami"]["container"]["bbmap"]
     group:
         "roundAB"
     shell:
@@ -296,6 +306,8 @@ rule trimnami_rm_low_qual:
         config["trimnami"]["qc"]["bbduk"]["rm_lq"]
     conda:
         os.path.join("..", "envs", "bbmap.yaml")
+    container:
+        config["trimnami"]["container"]["bbmap"]
     group:
         "roundAB"
     shell:
@@ -345,7 +357,9 @@ rule trimnami_zip_roundAB:
     params:
         compression = config["trimnami"]["qc"]["compression"]
     conda:
-        os.path.join("..", "envs", "pigz.yaml")
+        os.path.join("..", "envs", "prinseq.yaml")
+    container:
+        config["trimnami"]["container"]["prinseq"]
     group:
         "roundAB"
     shell:
@@ -376,6 +390,8 @@ rule trimnami_roundAB_single_end:
         compression = config["trimnami"]["qc"]["compression"]
     conda:
         os.path.join("..", "envs", "bbmap.yaml")
+    container:
+        config["trimnami"]["container"]["bbmap"]
     group:
         "roundAB"
     shell:

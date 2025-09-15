@@ -41,6 +41,8 @@ rule trimnami_init_input_paired_end:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "seqtk.yaml")
+    container:
+        config["trimnami"]["container"]["seqtk"]
     script:
         os.path.join("..", "scripts", "copyOrGzip.py")
 
@@ -56,6 +58,8 @@ rule trimnami_init_input_single_end:
         is_paired = False
     conda:
         os.path.join("..","envs","seqtk.yaml")
+    container:
+        config["trimnami"]["container"]["seqtk"]
     resources:
         **config["resources"]["med"]
     threads:

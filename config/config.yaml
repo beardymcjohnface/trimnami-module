@@ -24,8 +24,6 @@ trimnami:
 #          - subsample
         minimap: "sr"
         fastqc: true
-        subsample: false
-        fasta: false
         output: "trimnami.out/"
         output_paths:
             results: "results/"
@@ -34,6 +32,27 @@ trimnami:
             log: "logs/"
             bench: "benchmarks/"
             trimnami_log: "trimnami.log"
+    container:
+        bbmap:
+            "workflow/containers/trimnami_bbmap.sif"
+        cutadapt:
+            "workflow/containers/trimnami_cutadapt.sif"
+        fastp:
+            "workflow/containers/trimnami_fastp.sif"
+        fastqc:
+            "workflow/containers/trimnami_fastqc.sif"
+        filtlong:
+            "workflow/containers/trimnami_filtlong.sif"
+        minimap2:
+            "workflow/containers/trimnami_minimap2.sif"
+        multiqc:
+            "workflow/containers/trimnami_multiqc.sif"
+        prinseq:
+            "workflow/containers/trimnami_prinseq.sif"
+        rasusa:
+            "workflow/containers/trimnami_rasusa.sif"
+        seqtk:
+            "workflow/containers/trimnami_seqtk.sif"
     qc:
         compression:
             1

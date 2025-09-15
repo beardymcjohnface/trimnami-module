@@ -23,6 +23,8 @@ rule trimnami_fastp_paired_end:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","fastp.yaml")
+    container:
+        config["trimnami"]["container"]["fastp"]
     params:
         fastp=config["trimnami"]["qc"]["fastp"],
         compression=config["trimnami"]["qc"]["compression"],
@@ -75,6 +77,8 @@ rule trimnami_fastp_single_end:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs","fastp.yaml")
+    container:
+        config["trimnami"]["container"]["fastp"]
     params:
         fastp=config["trimnami"]["qc"]["fastp"],
         compression=config["trimnami"]["qc"]["compression"]

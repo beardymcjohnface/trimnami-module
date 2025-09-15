@@ -10,6 +10,8 @@ rule trimnami_filtlong_single:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "filtlong.yaml")
+    container:
+        config["trimnami"]["container"]["filtlong"]
     params:
         config["trimnami"]["qc"]["filtlong"]
     benchmark:
@@ -43,6 +45,8 @@ rule trimnami_filtlong_paried:
         config["resources"]["med"]["cpu"]
     conda:
         os.path.join("..", "envs", "filtlong.yaml")
+    container:
+        config["trimnami"]["container"]["filtlong"]
     benchmark:
         os.path.join(config["trimnami"]["args"]["output_paths"]["bench"],"trimnami_filtlong_paried.{file}.txt")
     log:
