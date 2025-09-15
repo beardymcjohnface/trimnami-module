@@ -1,0 +1,360 @@
+name: Build and Push Singularity Images
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - '**'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+      - '**'
+
+jobs:
+  check-for-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      img_bbmap_changed: ${{ steps.filter.outputs.img_bbmap }}
+      img_cutadapt_changed: ${{ steps.filter.outputs.img_cutadapt }}
+      img_fastp_changed: ${{ steps.filter.outputs.img_fastp }}
+      img_fastqc_changed: ${{ steps.filter.outputs.img_fastqc }}
+      img_filtlong_changed: ${{ steps.filter.outputs.img_filtlong }}
+      img_minimap2_changed: ${{ steps.filter.outputs.img_minimap2 }}
+      img_multiqc_changed: ${{ steps.filter.outputs.img_multiqc }}
+      img_prinseq_changed: ${{ steps.filter.outputs.img_prinseq }}
+      img_rasusa_changed: ${{ steps.filter.outputs.img_rasusa }}
+      img_seqtk_changed: ${{ steps.filter.outputs.img_seqtk }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get latest tag
+        id: get_tag
+        run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      - name: Check for changes in container recipes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          base: ${{ env.LAST_TAG }}
+          filters: |
+            img_bbmap:
+              - 'workflow/containers/trimnami_bbmap'
+            img_cutadapt:
+              - 'workflow/containers/trimnami_cutadapt'
+            img_fastp:
+              - 'workflow/containers/trimnami_fastp'
+            img_fastqc:
+              - 'workflow/containers/trimnami_fastqc'
+            img_filtlong:
+              - 'workflow/containers/trimnami_filtlong'
+            img_minimap2:
+              - 'workflow/containers/trimnami_minimap2'
+            img_multiqc:
+              - 'workflow/containers/trimnami_multiqc'
+            img_prinseq:
+              - 'workflow/containers/trimnami_prinseq'
+            img_rasusa:
+              - 'workflow/containers/trimnami_rasusa'
+            img_seqtk:
+              - 'workflow/containers/trimnami_seqtk'
+
+
+  build-trimnami_bbmap:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_bbmap_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_bbmap
+          run: |
+            apptainer build trimnami_bbmap.sif workflow/containers/trimnami_bbmap
+        - name: Push trimnami_bbmap to Quay.io
+          run: |
+            apptainer push trimnami_bbmap.sif oras://quay.io/beardymcjohnface/trimnami_bbmap:${{ env.LAST_TAG }}
+
+
+  build-trimnami_cutadapt:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_cutadapt_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_cutadapt
+          run: |
+            apptainer build trimnami_cutadapt.sif workflow/containers/trimnami_cutadapt
+        - name: Push trimnami_cutadapt to Quay.io
+          run: |
+            apptainer push trimnami_cutadapt.sif oras://quay.io/beardymcjohnface/trimnami_cutadapt:${{ env.LAST_TAG }}
+
+
+  build-trimnami_fastp:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_fastp_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_fastp
+          run: |
+            apptainer build trimnami_fastp.sif workflow/containers/trimnami_fastp
+        - name: Push trimnami_fastp to Quay.io
+          run: |
+            apptainer push trimnami_fastp.sif oras://quay.io/beardymcjohnface/trimnami_fastp:${{ env.LAST_TAG }}
+
+
+  build-trimnami_fastqc:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_fastqc_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_fastqc
+          run: |
+            apptainer build trimnami_fastqc.sif workflow/containers/trimnami_fastqc
+        - name: Push trimnami_fastqc to Quay.io
+          run: |
+            apptainer push trimnami_fastqc.sif oras://quay.io/beardymcjohnface/trimnami_fastqc:${{ env.LAST_TAG }}
+
+
+  build-trimnami_filtlong:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_filtlong_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_filtlong
+          run: |
+            apptainer build trimnami_filtlong.sif workflow/containers/trimnami_filtlong
+        - name: Push trimnami_filtlong to Quay.io
+          run: |
+            apptainer push trimnami_filtlong.sif oras://quay.io/beardymcjohnface/trimnami_filtlong:${{ env.LAST_TAG }}
+
+
+  build-trimnami_minimap2:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_minimap2_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_minimap2
+          run: |
+            apptainer build trimnami_minimap2.sif workflow/containers/trimnami_minimap2
+        - name: Push trimnami_minimap2 to Quay.io
+          run: |
+            apptainer push trimnami_minimap2.sif oras://quay.io/beardymcjohnface/trimnami_minimap2:${{ env.LAST_TAG }}
+
+
+  build-trimnami_multiqc:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_multiqc_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_multiqc
+          run: |
+            apptainer build trimnami_multiqc.sif workflow/containers/trimnami_multiqc
+        - name: Push trimnami_multiqc to Quay.io
+          run: |
+            apptainer push trimnami_multiqc.sif oras://quay.io/beardymcjohnface/trimnami_multiqc:${{ env.LAST_TAG }}
+
+
+  build-trimnami_prinseq:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_prinseq_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_prinseq
+          run: |
+            apptainer build trimnami_prinseq.sif workflow/containers/trimnami_prinseq
+        - name: Push trimnami_prinseq to Quay.io
+          run: |
+            apptainer push trimnami_prinseq.sif oras://quay.io/beardymcjohnface/trimnami_prinseq:${{ env.LAST_TAG }}
+
+
+  build-trimnami_rasusa:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_rasusa_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_rasusa
+          run: |
+            apptainer build trimnami_rasusa.sif workflow/containers/trimnami_rasusa
+        - name: Push trimnami_rasusa to Quay.io
+          run: |
+            apptainer push trimnami_rasusa.sif oras://quay.io/beardymcjohnface/trimnami_rasusa:${{ env.LAST_TAG }}
+
+
+  build-trimnami_seqtk:
+      needs: check-for-changes
+      if: needs.check-for-changes.outputs.img_seqtk_changed == 'true'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Install Apptainer
+          run: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository -y ppa:apptainer/ppa
+            sudo apt update
+            sudo apt install -y apptainer
+        - name: Get latest tag
+          id: get_tag
+          run: echo "LAST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        - name: Log in to Quay.io
+          run: |
+            echo "${{ secrets.QUAY_PASSWORD }}" | apptainer remote login --username "${{ secrets.QUAY_USERNAME }}" oras://quay.io
+        - name: Build trimnami_seqtk
+          run: |
+            apptainer build trimnami_seqtk.sif workflow/containers/trimnami_seqtk
+        - name: Push trimnami_seqtk to Quay.io
+          run: |
+            apptainer push trimnami_seqtk.sif oras://quay.io/beardymcjohnface/trimnami_seqtk:${{ env.LAST_TAG }}
