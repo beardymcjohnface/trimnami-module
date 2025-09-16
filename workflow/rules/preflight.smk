@@ -5,8 +5,10 @@ from metasnek import fastq_finder
 
 """
 Parse the samples with metasnek
+    - also initialise a dictionary for the final output reads files
 """
 config["trimnami"]["samples"] = dict()
+config["trimnami"]["trimmed"] = dict()
 config["trimnami"]["samples"]["reads"] = fastq_finder.parse_samples_to_dictionary(config["trimnami"]["args"]["reads"])
 config["trimnami"]["samples"]["names"] = list(config["trimnami"]["samples"]["reads"].keys())
 
@@ -27,13 +29,13 @@ config["trimnami"]["targets"] = dict()
 config["trimnami"]["targets"]["reads"] = list()
 
 for sample in config["trimnami"]["samples"]["names"]:
+    config["trimnami"]["trimmed"][sample] = dict()
     if config["trimnami"]["samples"]["reads"][sample]["R2"] is not None:
         read_pairs = ["R1","R2","RS"]
     else:
         read_pairs = ["S"]
     for read_pair in read_pairs:
-        config["trimnami"]["targets"]["reads"].append(
-            os.path.join(
+        out_file_name = os.path.join(
                 config["trimnami"]["args"]["output_paths"]["results"],
                 ".".join([
                     sample,
@@ -41,8 +43,9 @@ for sample in config["trimnami"]["samples"]["names"]:
                     read_pair,
                     config["trimnami"]["args"]["outfmt"]
                 ])
-            )
         )
+        config["trimnami"]["targets"]["reads"].append(out_file_name)
+        config["trimnami"]["trimmed"][sample][read_pair] = out_file_name
 
 
 """
